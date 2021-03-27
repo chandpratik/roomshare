@@ -1,5 +1,7 @@
-import { IResolvers } from 'apollo-server-express';
 import { Request } from 'express';
+import { IResolvers } from 'apollo-server-express';
+import { Database, User } from '../../../lib/types';
+import { authorize } from '../../../lib/utils';
 import {
   UserArgs,
   UserBookingsArgs,
@@ -7,8 +9,6 @@ import {
   UserListingsArgs,
   UserListingsData,
 } from './types';
-import { Database, User } from '../../../lib/types';
-import { authorize } from '../../../lib/utils';
 
 export const userResolvers: IResolvers = {
   Query: {
@@ -21,10 +21,11 @@ export const userResolvers: IResolvers = {
         const user = await db.users.findOne({ _id: id });
 
         if (!user) {
-          throw new Error("Users can't be found");
+          throw new Error("user can't be found");
         }
 
         const viewer = await authorize(db, req);
+
         if (viewer && viewer._id === user._id) {
           user.authorized = true;
         }
@@ -35,15 +36,13 @@ export const userResolvers: IResolvers = {
       }
     },
   },
-
   User: {
-    id: (user: User): String => {
+    id: (user: User): string => {
       return user._id;
     },
     hasWallet: (user: User): boolean => {
       return Boolean(user.walletId);
     },
-
     income: (user: User): number | null => {
       return user.authorized ? user.income : null;
     },
@@ -74,7 +73,7 @@ export const userResolvers: IResolvers = {
 
         return data;
       } catch (error) {
-        throw new Error(`Failed to query user bookings`);
+        throw new Error(`Failed to query user bookings: ${error}`);
       }
     },
     listings: async (
@@ -100,7 +99,7 @@ export const userResolvers: IResolvers = {
 
         return data;
       } catch (error) {
-        throw new Error(`Failed to query user listings`);
+        throw new Error(`Failed to query user listings: ${error}`);
       }
     },
   },

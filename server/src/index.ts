@@ -14,13 +14,14 @@ const mount = async (app: Application) => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req, res }) => ({ db, req, res }),
+    context: ( { req, res }) => ({ db, req, res }),
   });
 
   server.applyMiddleware({ app, path: '/api' });
   app.listen(process.env.PORT);
 
   console.log(`[app] : http://localhost:${process.env.PORT}`);
+
 };
 
 mount(express());

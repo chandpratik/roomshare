@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Avatar, Button, Card, Divider, Typography } from 'antd';
 import { User as UserData } from '../../../../lib/graphql/queries/User/__generated__/User';
 
@@ -11,30 +11,32 @@ const { Paragraph, Text, Title } = Typography;
 
 export const UserProfile = ({ user, viewerIsUser }: Props) => {
   const additionalDetailsSection = viewerIsUser ? (
-    <>
+    <Fragment>
       <Divider />
       <div className="user-profile__details">
         <Title level={4}>Additional Details</Title>
         <Paragraph>
-          Interested in becoming a roomShare host? Reggister with your Stripe
+          Interested in becoming a roomShare host? Register with your Stripe
           account!
         </Paragraph>
         <Button type="primary" className="user-profile__details-cta">
           Connect with Stripe
         </Button>
         <Paragraph type="secondary">
-          roomShare uses{' '}
+          roomShare uses
           <a
             href="https://stripe.com/en-US/connect"
             target="_blank"
-            rel="noopener no referrer"
+            rel="noopener noreferrer"
           >
-            Stripe
+            <span> Stripe </span>
           </a>
+          to help transfer your earnings in a secure and truster manner.
         </Paragraph>
       </div>
-    </>
+    </Fragment>
   ) : null;
+
   return (
     <div className="user-profile">
       <Card className="user-profile__card">

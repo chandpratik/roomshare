@@ -29,9 +29,7 @@ export const UserListings = ({
         lg: 4,
       }}
       dataSource={result}
-      locale={{
-        emptyText: 'User does not have any listings yet! ',
-      }}
+      locale={{ emptyText: "User doesn't have any listings yet!" }}
       pagination={{
         position: 'top',
         current: listingsPage,
@@ -56,9 +54,9 @@ export const UserListings = ({
       </Title>
       <Paragraph className="user-listings__description">
         This section highlights the listings this user currently hosts and has
-        made availavle for bookings.
+        made available for bookings.
       </Paragraph>
-      {userListings}
+      {userListingsList}
     </div>
   );
 };

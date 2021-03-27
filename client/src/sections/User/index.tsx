@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { USER } from '../../lib/graphql/queries';
 import { Col, Layout, Row } from 'antd';
-
+import { USER } from '../../lib/graphql/queries';
 import {
   User as UserData,
   UserVariables,
 } from '../../lib/graphql/queries/User/__generated__/User';
-import { Viewer } from '../../lib/types';
-import { UserProfile } from './components';
 import { ErrorBanner, PageSkeleton } from '../../lib/components';
+import { Viewer } from '../../lib/types';
+import { UserBookings, UserListings, UserProfile } from './components';
 
 interface Props {
   viewer: Viewer;
@@ -21,7 +20,6 @@ interface MatchParams {
 }
 
 const { Content } = Layout;
-
 const PAGE_LIMIT = 4;
 
 export const User = ({
@@ -51,17 +49,22 @@ export const User = ({
   if (error) {
     return (
       <Content className="user">
-        <ErrorBanner description="This user may not exist or we have encountered an error. Please try again later" />
+        <ErrorBanner description="This user may not exist or we've encountered an error. Please try again soon." />
         <PageSkeleton />
       </Content>
     );
   }
 
   const user = data ? data.user : null;
+
   const viewerIsUser = viewer.id === match.params.id;
 
   const userListings = user ? user.listings : null;
   const userBookings = user ? user.bookings : null;
+
+  const userProfileElement = user ? (
+    <UserProfile user={user} viewerIsUser={viewerIsUser} />
+  ) : null;
 
   const userListingsElement = userListings ? (
     <UserListings
@@ -72,7 +75,7 @@ export const User = ({
     />
   ) : null;
 
-  const userBookingsElement = userBookings ? (
+  const userBookingsElement = userListings ? (
     <UserBookings
       userBookings={userBookings}
       bookingsPage={bookingsPage}
@@ -81,14 +84,10 @@ export const User = ({
     />
   ) : null;
 
-  const userProfileElement = user ? (
-    <UserProfile user={user} viewerIsUser={viewerIsUser} />
-  ) : null;
-
   return (
     <Content className="user">
       <Row gutter={12} type="flex" justify="space-between">
-        <Col xs={24}>{userProfileElement} </Col>
+        <Col xs={24}>{userProfileElement}</Col>
         <Col xs={24}>
           {userListingsElement}
           {userBookingsElement}

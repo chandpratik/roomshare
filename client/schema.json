@@ -643,7 +643,7 @@
             "deprecationReason": null
           },
           {
-            "name": "bookingSIndex",
+            "name": "bookingsIndex",
             "description": null,
             "args": [],
             "type": {
