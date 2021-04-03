@@ -90,6 +90,12 @@ export const listingResolvers: IResolvers = {
       }
     },
   },
+
+  Mutation: {
+    hostListing: () => {
+      return 'Mutation.hostlisting';
+    },
+  },
   Listing: {
     id: (listing: Listing): string => {
       return listing._id.toString();
