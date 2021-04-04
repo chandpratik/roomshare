@@ -101,6 +101,7 @@ export const typeDefs = gql`
     logOut: Viewer!
     connectStripe(input: ConnectStripeInput!): Viewer!
     disconnectStripe: Viewer!
-    hostListing(input: hostListingInput!): Listing!
+    hostListing(input: HostListingInput!): Listing!
+    createBooking: String!
   }
 `;
